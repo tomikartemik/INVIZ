@@ -25,13 +25,15 @@ class _AuthorizationPageState extends State<AuthPage> {
   String _password;
   bool showLogin = true;
 
+
   final AuthService _authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
 
     Widget _logo(){
-      return Padding(
+      return
+        Padding(
           padding: EdgeInsets.only(top: 100),
           child: Container(
               child: Align(
@@ -111,9 +113,14 @@ class _AuthorizationPageState extends State<AuthPage> {
       );
     }
 
+
+
     void _signInButtonAction() async{
-      _username = _usernameController.text;
+      String username = _usernameController.text;
       _password = _passwordController.text;
+      String emptyUsername = '@gmail.com';
+
+      _username = username + emptyUsername;
 
       if (_username.isEmpty || _password.isEmpty) return;
 
@@ -136,8 +143,11 @@ class _AuthorizationPageState extends State<AuthPage> {
     }
 
     void _registerButtonAction() async {
-      _username = _usernameController.text;
+      String username = _usernameController.text;
       _password = _passwordController.text;
+      String emptyUsername = '@gmail.com';
+
+      _username = username + emptyUsername;
 
       if (_username.isEmpty || _password.isEmpty) return;
 

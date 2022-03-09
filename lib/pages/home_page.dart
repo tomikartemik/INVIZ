@@ -1,5 +1,6 @@
 import 'package:invise_flutter/constant/data.dart';
 import 'package:invise_flutter/pages/chat_detail_page.dart';
+import 'package:invise_flutter/services/auth.dart';
 import 'package:invise_flutter/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
@@ -40,7 +41,9 @@ class _HomePageState extends State<HomePage> {
                   "Chats",
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
-                Icon(Icons.edit)
+                IconButton(onPressed: (){
+                  AuthService().logOut();
+                }, icon: Icon(Icons.logout))
               ],
             ),
             SizedBox(
@@ -277,6 +280,7 @@ class _HomePageState extends State<HomePage> {
               }),
             )
           ],
-        ));
+        )
+    );
   }
 }
