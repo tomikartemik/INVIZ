@@ -14,6 +14,7 @@ class AuthPage extends StatefulWidget {
   AuthPage({Key key}) : super(key: key);
 
   @override
+
   _AuthorizationPageState createState() => _AuthorizationPageState();
 }
 
@@ -24,13 +25,31 @@ class _AuthorizationPageState extends State<AuthPage> {
   String _username;
   String _password;
   bool showLogin = true;
+  ScrollController _controller;
 
+  void initState() {
+    _controller = ScrollController();
+    _controller.addListener(_scrollListener);//the listener for up and down.
+    super.initState();
+  }
+
+  _scrollListener() {
+    if (_controller.offset >= _controller.position.maxScrollExtent &&
+        !_controller.position.outOfRange) {
+      setState(() {//you can do anything here
+      });
+    }
+    if (_controller.offset <= _controller.position.minScrollExtent &&
+        !_controller.position.outOfRange) {
+      setState(() {//you can do anything here
+      });
+    }
+  }
 
   final AuthService _authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
-
     Widget _logo(){
       return
         Padding(
@@ -128,7 +147,7 @@ class _AuthorizationPageState extends State<AuthPage> {
 
       if(user == null){
         Fluttertoast.showToast(
-            msg: "Can't SignIn you! Please check your username/password",
+            msg: "Please check your username or password",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
             timeInSecForIosWeb: 1,
@@ -155,7 +174,7 @@ class _AuthorizationPageState extends State<AuthPage> {
 
       if(user == null){
         Fluttertoast.showToast(
-            msg: "Can't SignIn you! Please check your username/password",
+            msg: "Please check your username or password",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
             timeInSecForIosWeb: 1,
@@ -187,50 +206,62 @@ class _AuthorizationPageState extends State<AuthPage> {
 
     return Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
-        body: Column(
-          children: <Widget>[
-            _logo(),
-            SizedBox(height: 100,),
-            (
-                showLogin
-                    ? Column(
-                  children: <Widget>[
-                    _form('LOGIN', _signInButtonAction),
-                    Padding(
-                      padding: EdgeInsets.all(10),
-                      child: GestureDetector(
-                          child: Text('Register', style: TextStyle(fontSize: 20, color: Colors.white)),
-                          onTap:() {
-                            setState((){
-                              showLogin = false;
-                            });
-                          }
-                      ),
-                    )
-                  ],
-                )
-                    : Column(
-                  children: <Widget>[
-                    _form('REGISTER', _registerButtonAction),
-                    Padding(
-                      padding: EdgeInsets.all(10),
-                      child: GestureDetector(
-                          child: Text('Login', style: TextStyle(fontSize: 20, color: Colors.white)),
-                          onTap:() {
-                            setState((){
-                              showLogin = true;
-                            });
-                          }
-                      ),
-                    )
-                  ],
-                )
-            ),
-            _bottomWave()
+        body: Container(
+                child: ListView.builder(
+                  controller: _controller,
+                  itemCount: 2,
+                  shrinkWrap: true ,
 
-          ],
-        )
+                  itemBuilder: (BuildContext context, int index) {
+                    Column(
+                      children: <Widget>[
+                        _logo(),
+                        SizedBox(height: 100,),
+                        (showLogin
+                            ? Column(
+                          children: <Widget>[
+                            _form('LOGIN', _signInButtonAction),
+                            Padding(
+                              padding: EdgeInsets.all(10),
+                              child: GestureDetector(
+                                  child: Text('Register', style: TextStyle(fontSize: 20, color: Colors.white)),
+                                  onTap:() {
+                                    setState((){
+                                      showLogin = false;
+                                    });
+                                  }
+                              ),
+                            )
+                          ],
+                        )
+                            : Column(
+                          children: <Widget>[
+                            _form('REGISTER', _registerButtonAction),
+                            Padding(
+                              padding: EdgeInsets.all(10),
+                              child: GestureDetector(
+                                  child: Text('Login', style: TextStyle(fontSize: 20, color: Colors.white)),
+                                  onTap:() {
+                                    setState((){
+                                      showLogin = true;
+                                    });
+                                  }
+                              ),
+                            )
+                          ],
+                        )
+                        ),
+                        _bottomWave()
+
+                      ],
+                    );
+                  },
+                ),
+
+          ),
+
     );
+
   }
 }
 

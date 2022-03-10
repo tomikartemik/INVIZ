@@ -67,11 +67,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
           SizedBox(
             width: 15,
           ),
-          Icon(
-            Icons.add_a_photo,
-            color: primary,
-            size: 35,
-          ),
+
           SizedBox(
             width: 8,
           ),
@@ -110,16 +106,12 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                 children: <Widget>[
                   Icon(Icons.add_circle,size: 35,color: primary,),
                   SizedBox(width: 15,),
-                  Icon(Icons.camera_alt,size: 35,color: primary,),
-                  SizedBox(width: 15,),
-                  Icon(Icons.photo,size: 35,color: primary,),
-                  SizedBox(width: 15,),
                   Icon(Icons.keyboard_voice,size: 35,color: primary,),
                 ],
               ),
             ),
             Container(
-              width: (MediaQuery.of(context).size.width- 40)/2,
+              width: (MediaQuery.of(context).size.width - 40)/2,
               child: Row(
                 children: <Widget>[
                   Container(
@@ -130,20 +122,20 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                         borderRadius: BorderRadius.circular(20)
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 12),
+                      padding: const EdgeInsets.only(left: 13),
                       child: TextField(
                         cursorColor: black,
                         controller: _sendMessageController,
                         decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: "Aa",
+                            hintText: "Message",
                             suffixIcon: Icon(Icons.face,color: primary,size: 35,)
                         ),
                       ),
                     ),
                   ),
                   SizedBox(width: 15,),
-                  Icon(Icons.thumb_up,size: 35,color: primary,),
+                  Icon(Icons.send,size: 35,color: primary,),
                 ],
               ),
             ),
