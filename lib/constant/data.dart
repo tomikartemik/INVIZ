@@ -1,4 +1,10 @@
 // users story list
+import 'dart:convert';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:invise_flutter/services/auth.dart';
+
 List userStories = [
   {
     "id" : 1,
@@ -48,7 +54,32 @@ List userStories = [
   }
 ];
 
+
+class userData {
+  final databaseReference = FirebaseDatabase.instance.ref('Core/Staff/${FirebaseAuth.instance.currentUser.uid}');
+
+  void getData() async {
+    DatabaseEvent event = await databaseReference.once();
+    // Map<String, dynamic> user = jsonDecode(event.snapshot.value);
+    // print("${user['Name']}");
+    const JsonEncoder encoder = JsonEncoder();
+    final String jsonString = encoder.convert(event.snapshot.value);
+    int l = jsonString.indexOf('"', 10);
+    String image = jsonString.substring(10,l);
+    print(image);
+  }
+}
+
 // users message list
+
+// List userMessages = [
+//   {
+//     "id": ,
+//     "image": '',
+//
+//   }
+// ];
+
 List userMessages = [
   {
     "id" : 1,

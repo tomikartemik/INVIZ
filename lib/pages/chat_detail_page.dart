@@ -1,4 +1,5 @@
 import 'package:invise_flutter/constant/data.dart';
+import 'package:invise_flutter/services/auth.dart';
 import 'package:invise_flutter/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
@@ -8,11 +9,14 @@ class ChatDetailPage extends StatefulWidget {
   _ChatDetailPageState createState() => _ChatDetailPageState();
 }
 
+
 class _ChatDetailPageState extends State<ChatDetailPage> {
   TextEditingController _sendMessageController = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
         backgroundColor: grey.withOpacity(0.2),
         elevation: 0,
@@ -33,7 +37,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                   shape: BoxShape.circle,
                   image: DecorationImage(
                       image: NetworkImage(
-                          "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"),
+                          'https://images.unsplash.com/photo-1519531591569-b84b8174b508?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60'),
                       fit: BoxFit.cover)),
             ),
             SizedBox(

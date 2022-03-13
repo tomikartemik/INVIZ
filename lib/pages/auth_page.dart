@@ -14,7 +14,6 @@ class AuthPage extends StatefulWidget {
   AuthPage({Key key}) : super(key: key);
 
   @override
-
   _AuthorizationPageState createState() => _AuthorizationPageState();
 }
 
@@ -25,42 +24,24 @@ class _AuthorizationPageState extends State<AuthPage> {
   String _username;
   String _password;
   bool showLogin = true;
-  ScrollController _controller;
 
-  void initState() {
-    _controller = ScrollController();
-    _controller.addListener(_scrollListener);//the listener for up and down.
-    super.initState();
-  }
-
-  _scrollListener() {
-    if (_controller.offset >= _controller.position.maxScrollExtent &&
-        !_controller.position.outOfRange) {
-      setState(() {//you can do anything here
-      });
-    }
-    if (_controller.offset <= _controller.position.minScrollExtent &&
-        !_controller.position.outOfRange) {
-      setState(() {//you can do anything here
-      });
-    }
-  }
 
   final AuthService _authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
+
     Widget _logo(){
       return
         Padding(
-          padding: EdgeInsets.only(top: 100),
-          child: Container(
-              child: Align(
+            padding: EdgeInsets.only(top: 100),
+            child: Container(
+                child: Align(
                   child: Text('INVIZ', style: TextStyle(fontSize: 45, fontWeight: FontWeight.bold, color: Colors.white,)
                   ),
-              )
-          )
-      );
+                )
+            )
+        );
     }
 
     Widget _input(Icon icon, String hint, TextEditingController controller, bool obscure){
@@ -147,7 +128,7 @@ class _AuthorizationPageState extends State<AuthPage> {
 
       if(user == null){
         Fluttertoast.showToast(
-            msg: "Please check your username or password",
+            msg: "Can't SignIn you! Please check your username/password",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
             timeInSecForIosWeb: 1,
@@ -174,7 +155,7 @@ class _AuthorizationPageState extends State<AuthPage> {
 
       if(user == null){
         Fluttertoast.showToast(
-            msg: "Please check your username or password",
+            msg: "Can't SignIn you! Please check your username/password",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
             timeInSecForIosWeb: 1,
@@ -206,62 +187,50 @@ class _AuthorizationPageState extends State<AuthPage> {
 
     return Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
-        body: Container(
-                child: ListView.builder(
-                  controller: _controller,
-                  itemCount: 2,
-                  shrinkWrap: true ,
+        body: Column(
+          children: <Widget>[
+            _logo(),
+            SizedBox(height: 100,),
+            (
+                showLogin
+                    ? Column(
+                  children: <Widget>[
+                    _form('LOGIN', _signInButtonAction),
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                      child: GestureDetector(
+                          child: Text('Register', style: TextStyle(fontSize: 20, color: Colors.white)),
+                          onTap:() {
+                            setState((){
+                              showLogin = false;
+                            });
+                          }
+                      ),
+                    )
+                  ],
+                )
+                    : Column(
+                  children: <Widget>[
+                    _form('REGISTER', _registerButtonAction),
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                      child: GestureDetector(
+                          child: Text('Login', style: TextStyle(fontSize: 20, color: Colors.white)),
+                          onTap:() {
+                            setState((){
+                              showLogin = true;
+                            });
+                          }
+                      ),
+                    )
+                  ],
+                )
+            ),
+            _bottomWave()
 
-                  itemBuilder: (BuildContext context, int index) {
-                    Column(
-                      children: <Widget>[
-                        _logo(),
-                        SizedBox(height: 100,),
-                        (showLogin
-                            ? Column(
-                          children: <Widget>[
-                            _form('LOGIN', _signInButtonAction),
-                            Padding(
-                              padding: EdgeInsets.all(10),
-                              child: GestureDetector(
-                                  child: Text('Register', style: TextStyle(fontSize: 20, color: Colors.white)),
-                                  onTap:() {
-                                    setState((){
-                                      showLogin = false;
-                                    });
-                                  }
-                              ),
-                            )
-                          ],
-                        )
-                            : Column(
-                          children: <Widget>[
-                            _form('REGISTER', _registerButtonAction),
-                            Padding(
-                              padding: EdgeInsets.all(10),
-                              child: GestureDetector(
-                                  child: Text('Login', style: TextStyle(fontSize: 20, color: Colors.white)),
-                                  onTap:() {
-                                    setState((){
-                                      showLogin = true;
-                                    });
-                                  }
-                              ),
-                            )
-                          ],
-                        )
-                        ),
-                        _bottomWave()
-
-                      ],
-                    );
-                  },
-                ),
-
-          ),
-
+          ],
+        )
     );
-
   }
 }
 

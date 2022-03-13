@@ -1,14 +1,20 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:invise_flutter/constant/data.dart';
 import 'package:invise_flutter/domain/user.dart';
+import 'package:firebase_database/firebase_database.dart';
+
 
 class AuthService {
 
   final FirebaseAuth _fAuth = FirebaseAuth.instance;
+  final databaseReference = FirebaseDatabase.instance.reference();
 
   Future<UserDom> logIn(String username, String password) async {
     try{
       UserCredential result = await _fAuth.signInWithEmailAndPassword(email: username, password: password);
       User user = result.user;
+      userData().getData();
       return UserDom.fromFirebase(user);
     } catch (e) {
       return null;
@@ -19,6 +25,10 @@ class AuthService {
     try{
       UserCredential result = await _fAuth.createUserWithEmailAndPassword(email: username, password: password);
       User user = result.user;
+      databaseReference.child("Core").child("Staff").child(_fAuth.currentUser.uid).set({
+        "Name": username,
+        "Image": "https://images.unsplash.com/photo-1519531591569-b84b8174b508?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
+      });
       return UserDom.fromFirebase(user);
     } catch (e) {
       return null;
