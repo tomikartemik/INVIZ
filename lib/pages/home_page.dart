@@ -114,7 +114,8 @@ class _HomePageState extends State<HomePage> {
                                     image: DecorationImage(
                                         image:
                                         NetworkImage(userMessages[index]['img']),
-                                        fit: BoxFit.cover)),
+                                        fit: 
+                                        BoxFit.cover)),
                               ),
                               userMessages[index]['online']
                                   ? Positioned(
