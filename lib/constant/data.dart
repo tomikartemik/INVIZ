@@ -1,76 +1,124 @@
 // users story list
 import 'dart:convert';
-//import 'dart:html';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:invise_flutter/domain/user_info.dart';
 import 'package:invise_flutter/services/auth.dart';
 
-class Person {
-  // properties
-  String name;
-  String image;
-
-  Person(this.name, this.image);
-
-  // Implement a method that returns the map you need
-  Map<String, String> toMap() {
-    return {"Name": name, "Image": image};
-  }
-}
-
+// List userStories = [
+//   {
+//     "id" : 1,
+//     "name" : "Michael",
+//     "img" : "https://images.unsplash.com/photo-1571741140674-8949ca7df2a7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
+//     "online" : true,
+//     "story" : true,
+//   },
+//   {
+//     "id" : 2,
+//     "name" : "Kirill",
+//     "img" : "https://images.unsplash.com/photo-1536763843054-126cc2d9d3b0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+//     "online" : false,
+//     "story" : false,
+//   },
+//   {
+//     "id" : 3,
+//     "name" : "Lesly",
+//     "img" : "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80",
+//     "online" : true,
+//     "story" : false,
+//
+//   },
+//   {
+//     "id" : 4,
+//     "name" : "Valerie",
+//     "img" : "https://images.unsplash.com/photo-1523264939339-c89f9dadde2e?ixlib=rb-1.2.1&auto=format&fit=crop&w=934&q=80",
+//     "online" : true,
+//     "story" : true,
+//
+//   },
+//   {
+//     "id" : 5,
+//     "name" : "Frank",
+//     "img" : "https://images.unsplash.com/photo-1458696352784-ffe1f47c2edc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1951&q=80",
+//     "online" : false,
+//     "story" : false,
+//
+//   },
+//   {
+//     "id" : 6,
+//     "name" : "Joanna",
+//     "img" : "https://images.unsplash.com/photo-1519531591569-b84b8174b508?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
+//     "online" : false,
+//     "story" : true,
+//
+//   }
+// ];
 
 
 class userData {
   final databaseReference = FirebaseDatabase.instance.ref('Core/Staff/${FirebaseAuth.instance.currentUser.uid}');
 
+  String name;
+  String img;
+
   getData() async {
+
+
+
     DatabaseEvent event = await databaseReference.once();
+    const JsonEncoder encoder = JsonEncoder();
+    final String jsonString = encoder.convert(event.snapshot.value);
+    int l = jsonString.indexOf('"', 10);
+    String image = jsonString.substring(10,l);
+    print(jsonString);
+    print(image);
+    // return image;
+  }
+  getUser(){
+    print(FirebaseAuth.instance.currentUser.uid);
+    if(FirebaseAuth.instance.currentUser.uid == "L1gPfnZknnQwacakc80PiMVDu5L2"){
+      name = "Artem Ulesov";
+      img = "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80";
+    }else{
+      name = "Rinat Sabitov";
+      img = "https://images.unsplash.com/photo-1519531591569-b84b8174b508?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60";
+    }
+  }
+  getImg(){
+    getUser();
+    return img;
+  }
 
-    user_info user_inf = user_info.fromJson(jsonDecode(event.snapshot.value));
-    // if(vvod == 'img'){
-    // String image = user_inf.v_stroku_image();
-    // String name = user_inf.v_stroku_name();
-
-      return user_inf;
-    // }
-    // if(vvod == 'name'){
-    //   return user_inf.name;
-    // }else{return null;};
-    //user_info user_inf = user_info.fromJson(jsonDecode(event.snapshot.value));
-
-
-    //Map<String, dynamic> user = jsonDecode(event.snapshot.value);
-    //print("${user['Name']}");
-    // const JsonEncoder encoder = JsonEncoder();
-    // final String jsonString = encoder.convert(event.snapshot.value);
-    // int l = jsonString.indexOf('"', 10);
-    // String image = jsonString.substring(10,l);
-    // print(image);
-    // print(databaseReference.toString());
-
-    //return user['Image'];
+  getName(){
+    getUser();
+    return name;
   }
 }
 
-// users message list
-
 List userMessages = [
   {
-    "id" : FirebaseAuth.instance.currentUser.uid,
-    "name" : userData().getData()['Name'],
-    "img" : userData().getData()['Image'],
+    "id" : 1,
+    "name" : userData().getName(),
+    "img" : userData().getImg(),
     "online" : true,
-    "story" : false,
+    "story" : true,
     "message" : "How are you doing?",
     "created_at" : "1:00 pm"
   },
 ];
 
 // List userMessages = [
-//
+//   {
+//     "id" : 1,
+//     "name" : "Michael Dam",
+//     "img" : "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Flag_of_Ukraine.svg/250px-Flag_of_Ukraine.svg.png",
+//     "online" : true,
+//     "story" : true,
+//     "message" : "How are you doing?",
+//     "created_at" : "1:00 pm"
+//   },
 //   {
 //     "id" : 2,
 //     "name" : "Charly Race",
