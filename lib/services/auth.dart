@@ -37,6 +37,7 @@ class AuthService {
           "Image": "https://images.unsplash.com/photo-1519531591569-b84b8174b508?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60"
         }
       );
+      firestoreInstance.collection("Core").doc(_fAuth.currentUser.uid).collection("Chats");
       return UserDom.fromFirebase(user);
     } catch (e) {
       return null;
